@@ -1,0 +1,58 @@
+@ 블록 체인이란?
+P2P (peer to peer) 네트워크를 통해 관리되는 분산 데이터베이스의 한 형태
+블록체인 네트워크에 연결된 여러 컴퓨터(노드)에 장부를 저장 및 보관하는 기술
+- 분산원장 기술(DLT: Distributed Ledger Technology)
+분산처리와 암호화로 디도스 공격이나 해킹으로부터 상대적으로 안전
+
+- 활용처 : 금융거래, 개인의료정보, 영상 또는 이미지 혹은 음원, 전자계약시스템, 부동산 시장, 의료 부문, 인적 자원 관리
+
+- 해쉬 함수를 사용
+- 스마트 계약을 활용 : 블록체인의 투명성, 비가역성, 신뢰성을 활용해 이용로의 정산, 배분에 있어서의 고질적 문제에 대한 해결책
+
+이전부터 이어져 내려오는 블록체인의 맨 끝에 새로운 블록체인을 연결하려면 새로 구성한 블록의 이름에 해당하는 해시값을 찾아내는 일
+                                                                          -> 목표값보다 작아야 한다는 조건을 충족해야 새로운 블록 생성 가능
+
+- PoW (Proof of Work) : 작업증명
+  -> 문제를 주어주고 조건을 만족하는 답을 찾아낸 노드에게 보상하는 합의 알고리즘
+  -> 해ㅐ쉬값에 대한 조건이 주어지고 노드들은 해시값을 구하기 위해 값을 찾고, 값을 찾게 되면 새로운 블록을 추가하여 브랜치 형성
+  -> 브랜치가 생겼을 때 가장 긴 블록체인이 남은 브랜치가 최종 브랜치로 결정되고 다른 브랜치들은 버려짐
+  - 장점 :
+  - 단점 : 
+
+...
+...
+...
+
+!! 과제 !!
+1. 팀별로 PoW / Pos / DPos 중 하나를 분석해서 정리하고 발표 준비
+2. 금일 발표한팀 내용 공유 블로그 정리
+3. 머클트리 및 해쉬트리 내용 블로그 정리
+
+
+=======================================================================
+우분투에서
+seongjae 디렉토리로 와서
+npm i merkletreejs crypto-js
+
+vi test_merkleTree.js
+파일 하나 만들어서
+const SHA256 = require('crypto-js/sha256')
+console.log(SHA256('a').toString())
+
+const testSet = [ 'a', 'b', 'c', 'd', 'e' ]
+const testArray = testSet.map((v)=>SHA256(v).toSting())
+console.log(testArray)
+
+const testMerkleTree = new merkleTree{testArray, SHA256}
+console.log(testMerkleTree)
+
+const merkleRoot = testMerkleTree.getRoot()
+console.log.toString('hex')
+
+const testValue = 'u'
+const leaf = SHA256(testValue)
+const proof = testMerkleTree.getProof(leaf)
+console.log(proof)
+
+const result = testMerkleTree.verify(proof, leaf, merkleTree)
+
