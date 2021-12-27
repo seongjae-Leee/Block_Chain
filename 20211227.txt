@@ -1,0 +1,24 @@
+@ 블록체인 2일차
+$ /home/seongjae/workspace/blockChain
+$ vi block.js(
+  previousHash는 그 전 해쉬값을 통해 블록과 연결하는 것
+  timestamp는 시간계산
+  merkleRoot는 자료구조 쓰면서 나오는거 넣어주는것
+
+)
+$ npm i merkle
+$ node block.js
+$ npm init
+$ node block.js -> 결과값 : 1.0.0
+- 첫번째 블록 생성하기 (createGenesisBlock)
+$ node block.js 로 확인
+- 복사해서 연결할 블록 만들어주기
+$ cp block.js chainedBlock.js
+- 내용 추가해주고
+$ 
+$ 
+
+
+========================================================
+과제
+1. var, const, let 차이점 확인
