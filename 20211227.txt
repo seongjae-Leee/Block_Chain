@@ -4,7 +4,8 @@ $ vi block.js(
   previousHash는 그 전 해쉬값을 통해 블록과 연결하는 것
   timestamp는 시간계산
   merkleRoot는 자료구조 쓰면서 나오는거 넣어주는것
-
+  bit는 용량
+  nonce는 노가다 횟수
 )
 $ npm i merkle
 $ node block.js

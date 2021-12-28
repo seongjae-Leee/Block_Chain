@@ -34,7 +34,7 @@ P2P (peer to peer) 네트워크를 통해 관리되는 분산 데이터베이스
 seongjae 디렉토리로 와서
 npm i merkletreejs crypto-js
 
-mkdir blockChain 만들고 그 안에
+mkdir blockchain 만들고 그 안에
 vi test_merkleTree.js 로
 파일 하나 만들어서
 const {MerkleTree} = require('merkletreejs')
