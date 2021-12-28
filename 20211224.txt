@@ -34,7 +34,8 @@ P2P (peer to peer) 네트워크를 통해 관리되는 분산 데이터베이스
 seongjae 디렉토리로 와서
 npm i merkletreejs crypto-js
 
-vi test_merkleTree.js
+mkdir blockChain 만들고 그 안에
+vi test_merkleTree.js 로
 파일 하나 만들어서
 const {MerkleTree} = require('merkletreejs')
 const SHA256 = require('crypto-js/sha256')
@@ -64,4 +65,6 @@ const result = testMerkleTree.verify(proof, leaf, merkleTree)
 console.log(result)
 
 =================================================================================================================================
-@ Pos란?
+@ Pos란? Pow란? DPos란?
+@ 머클트리, 해시트리란?
+
