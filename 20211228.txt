@@ -4,21 +4,27 @@
   - 이전 블록의 해시값과 현재 블록의 이전 해시가 같은지
   - 데이터 필드로부터 계산한 머클루트와 블록 헤더의 머클루트가 동일한지
 
-$ vi checkBalidBlock.js
+※※※※※※
+검증하는 함수 만들기 전에 
+vi chainedBlock에 nextBlock 함수 추가해주기
+
+
+※※※※※※
+$ vi checkValidBlock.js
 // chainedBlock.js에서 module.exports{어쩌구 저쩌구}
 // chainedBlock.js의 함수나 객체를 불러와서 쓰기
 const {Blocks, getLastBlock, createHash, nextBlock} = require("./chainedBlock.js")
 const merkle = require("merkle")
 
 function isValidBlockStructure(block){
-  // type 검사
+  // type 검사!
   typeof(block.header.version) === 'string'
-  && typeof(block.header.index) ==== 'number'
-  && typeof(block.header.previousHash) ==== 'string'
-  && typeof(block.header.timestamp) ==== 'number'
-  && typeof(block.header.merkleRoot) ==== 'string'
-  // && typeof(block.data) ==== 'object' 에서 block.data가 아니라 block.body로 써야 정상작동할듯.. 전에 body로 만들었으니까!
-  && typeof(block.body) ==== 'object'
+  && typeof(block.header.index) === 'number'
+  && typeof(block.header.previousHash) === 'string'
+  && typeof(block.header.timestamp) === 'number'
+  && typeof(block.header.merkleRoot) === 'string'
+  // && typeof(block.data) === 'object' 에서 block.data가 아니라 block.body로 써야 정상작동할듯.. 전에 body로 만들었으니까!
+  && typeof(block.body) === 'object'
 }
 
 function isValidNewBlock(newBlock, previousBlock){
@@ -35,7 +41,7 @@ function isValidNewBlock(newBlock, previousBlock){
     return false;
   }
   else if ((newBlock.body.length===0 && ('0'.repeat(64) !== newBlock.header.merkleRoot) ||
-          newBlock.body.length !== 0 && (merkle("sha256).sync(newBlock.body).root()!==newBlock.header.merkleRoot))){
+          newBlock.body.length !== 0 && (merkle("sha256").sync(newBlock.body).root()!==newBlock.header.merkleRoot))){
             console.log('Invalid merkleRoot')
             return false;
           }
@@ -55,6 +61,7 @@ addBlock(block)
 ==================================================================================================================
 env | grep HTTP_PORT
 
+※※※※※※
 $ httpServer.js
 const express = require("express")
 const bodyParser = require("body-parser")
