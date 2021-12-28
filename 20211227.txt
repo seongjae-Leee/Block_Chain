@@ -10,6 +10,7 @@ $ vi block.js
 ▼ 내용
 const fs = require('fs')
 const merkle = require('merkle')
+const cryptoJS = require('crypto-js')
 
 class Block{
 constructor(header, body){
@@ -68,13 +69,43 @@ function getLastBlock(){
 function createHash(data){
         const {index, version, previousHash, timestamp, merkleRoot, bit, nonce} = data.header
         const blockString = version + previousHash + timestamp[+ merkleRoot + bit + nonce
-        const hash = cryptojs.SHA256(blockString).toString()
+        const hash = cryptoJs.SHA256(blockString).toString()
                 return hash
 }
-const block2 = createGenesisBlock()
-const testHash = createHash(block2)
-console.log(testHash)
+//const block2 = createGenesisBlock()
+//const testHash = createHash(block2)
+//console.log(testHash)
 
+function nextBlock(bodyData){
+  const prevBlock = getLastBlock()
+  const version = getVersion()
+  const index = prevBlock.header.index + 1
+  const previousHash = createHash(prevBlock)
+  const timestamp = parseInt(Date.now() / 1000)
+  const tree = merkle('sha256').sync(bodyData)
+  const merkleRoot = tree.root() || '0'.repeat(64)
+  const bit = 0
+  const nonce = 0
+
+  const header = new BlockHeader(index, version, preiviousHash, timestamp, merkleRoot, bit, nonce)
+  return new Block(header, bodyData)
+}
+//const block3 = nextBlock(['transaction1'])
+//console.log(block1)
+
+function addBlock(bodyData){
+  const newBlock = nextBlock(bodyData)
+  Blocks.push(newBlock)
+}
+
+addBlock(['Transaction1'])
+addBlock(['Transaction2'])
+addBlock(['Transaction3'])
+addBlock(['Transaction4'])
+addBlock(['Transaction5'])
+console.log(Blocks)
+
+======================================================================================
 $ npm i merkle
 $ node block.js
 $ npm init
