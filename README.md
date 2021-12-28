@@ -1,2 +1,2 @@
 # Block_Chain
-Start from scrath
+Start from scratch
