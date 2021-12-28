@@ -4,6 +4,12 @@
   - 이전 블록의 해시값과 현재 블록의 이전 해시가 같은지
   - 데이터 필드로부터 계산한 머클루트와 블록 헤더의 머클루트가 동일한지
 
+$ vi checkBalidBlock.js
+// chainedBlock.js에서 module.exports{어쩌구 저쩌구}
+// chainedBlock.js의 함수나 객체를 불러와서 쓰기
+const {Blocks, getLastBlock, createHash, nextBlock} = require("./chainedBlock.js")
+const merkle = require("merkle")
+
 function isValidBlockStructure(block){
   // type 검사
   typeof(block.header.version) === 'string'
@@ -11,7 +17,8 @@ function isValidBlockStructure(block){
   && typeof(block.header.previousHash) ==== 'string'
   && typeof(block.header.timestamp) ==== 'number'
   && typeof(block.header.merkleRoot) ==== 'string'
-  && typeof(block.data) ==== 'object'
+  // && typeof(block.data) ==== 'object' 에서 block.data가 아니라 block.body로 써야 정상작동할듯.. 전에 body로 만들었으니까!
+  && typeof(block.body) ==== 'object'
 }
 
 function isValidNewBlock(newBlock, previousBlock){
@@ -27,8 +34,8 @@ function isValidNewBlock(newBlock, previousBlock){
     console.log('Invalid previousHash')
     return false;
   }
-  else if ((newBlock.data.length===0 && ('0'.repeat(64) !== newBlock.header.merkleRoot) ||
-          newBlock.data.length !== 0 && (merkle("sha256).sync(newBlock.data).root()!==newBlock.header.merkleRoot))){
+  else if ((newBlock.body.length===0 && ('0'.repeat(64) !== newBlock.header.merkleRoot) ||
+          newBlock.body.length !== 0 && (merkle("sha256).sync(newBlock.body).root()!==newBlock.header.merkleRoot))){
             console.log('Invalid merkleRoot')
             return false;
           }
@@ -42,3 +49,49 @@ function addBlock(newBlock){
   }
   return false;
 }
+
+const block = nextBlock(['new Transaction'])
+addBlock(block)
+==================================================================================================================
+env | grep HTTP_PORT
+
+$ httpServer.js
+const express = require("express")
+const bodyParser = require("body-parser")
+
+const http_port = process.env.HTTP_PORT || 3301
+
+function initHttpServer(){
+  const app = exrpress()
+  app.use(bodyParser.json())
+
+  app.get("/blocks", (req, res)=>{
+    res.send(getBlock())
+  })
+  app.post("/mineBlock", (req, res)=>{
+    const data = req.body.data || []
+    const block = nextBlock(data)
+    addBlock(block)
+
+    res.send(block)
+  })
+
+  app.get("/version", (req, res)=>{
+    res.send(getVersion())
+  })
+
+  app.post("/stop", (req, res)=>{
+    res.send({"msg":"Stopped Server"})
+    process.exit()
+  })
+  
+  app.listen(http_port, ()=>{
+    console.log("Listening Http Port : " + http_port)
+  })
+}
+initHttpServer()
+
+npm i express body-parser 설치하고
+node httpServer.js & 로 실행해서 백그라운드에서 돌리기
+
+블록 생성 잘되는지 확인하기!!
