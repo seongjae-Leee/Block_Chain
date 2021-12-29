@@ -61,12 +61,14 @@ addBlock(block)
 ==================================================================================================================
 env | grep HTTP_PORT
 
+우선 chainedBlock에 가서 addBlock 이랑 getVersion 을 module.exports에 추가해주기
 ※※※※※※
 $ httpServer.js
 const express = require("express")
 const bodyParser = require("body-parser")
+const {getBlocks, nextBlock, addBlock, getVersion} = require("./chainedBlock.js")
 
-const http_port = process.env.HTTP_PORT || 3301
+const http_port = process.env.HTTP_PORT || 3001
 
 function initHttpServer(){
   const app = exrpress()
