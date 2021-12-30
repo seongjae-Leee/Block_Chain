@@ -63,7 +63,7 @@ env | grep HTTP_PORT
 
 우선 chainedBlock에 가서 addBlock 이랑 getVersion 을 module.exports에 추가해주기
 ※※※※※※
-$ httpServer.js
+$ vi httpServer.js
 const express = require("express")
 const bodyParser = require("body-parser")
 const {getBlocks, nextBlock, addBlock, getVersion} = require("./chainedBlock.js")
@@ -100,7 +100,7 @@ function initHttpServer(){
 }
 initHttpServer()
 
-npm i express body-parser 설치하고
+npm i express body-parser 설치하고(OK)
 node httpServer.js & 로 실행해서 백그라운드에서 돌리기
 
 블록 생성 잘되는지 확인하기!!

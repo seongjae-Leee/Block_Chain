@@ -1,0 +1,72 @@
+cf) WSL2 를 다운받을 것인가
+
+@@@@@ 서버를 계속 닫고 열고 하기 귀찮아서 아예 restart 명령어를 쉘스크브립트로 만들기
+$ vi restartServer.sh
+#!/bin/bash
+kill -9 `ps -ef | grep httpServer.js | grep node | awk '{print $2}'`
+node httpServer.js &
+
+@@@@@ 
+$ vi p2pServer.js 에 추가
+마지막에 module.exports = { getSockets, connectToPeers } 해놓고
+그 위에 message Handler 추가 ▼
+const MessageType ={
+  QUERY_LATEST:0, // 가지고 있는 가장 최근에(마지막에) 받은 블록을 가져와서 데이터블록에 담아서 보내 달라는...
+  QUERY_ALL:1, // 가지고 있는 전부 다 요청해 불러와서 보내 달라는...
+  RESPONSE_BLOCKCHAIN:2 // 하나 이상의 블록을 가지고 메세지를 보낼 때는 이 타입으로 보내는 것
+}
+
+function initMessageHandler(ws){
+  ws.on("message", (data)=>{
+    const message = JSON.parse(data) // JSON 타입으로 데이터 분석
+    // ▼ 메세지 타입에 따라 각각 다른 반응을 하기 위한 switch 문
+    switch(message.type){
+      case MessageType.QUERY_LATEST:
+        // ▼ 만들어놨던 write 함수로 ws(웹소켓)에 회신하기
+        write( ws, responseLatestMsg());
+        break;
+      case MessageType.QUERY_ALL:
+        write( ws, responseAllChainMsg());
+        break;
+      case MessageType.RESPONSE_BLOCKCHAIN:
+        handleBlockChainResponse(message);
+        break;
+    }
+  })
+}
+
+function responseLatestMsg(){
+  return ({
+    "type" : RESPONSE_BLOCKCHAIN, // 회신하는 방식
+    "data" : JSON.stringify([getLastBlock()]), // 보낼 블록을 배열 형태 안에 담아서 json 형태로 바꾸기
+  })
+}
+
+function responseAllChainMsg(){
+  return ({
+    "type" : RESPONSE_BLOCKCHAIN, // 회신하는 방식은 lastest와 같음
+    "data" : JSON.stringify(getBlocks()), // 보낼 블록이 이미 배열 형태이기 때문에 형식만 json으로 바꿔줌
+  })
+}
+
+function handleBlockChainResponse(){
+
+}
+
+// ▼ 요청을 보내는 함수
+function queryAllMsg(){
+    return ({
+    "type" : QUERY_ALL, // 요청 타입
+    "data" : null // 요청을 보내는 것이므로 데이터는 따로 필요가 없다
+  })
+}
+function queryLatestMsg(){
+  return ({
+    "type" : QUERY_LATEST,
+    "data" : null
+  })
+}
+
+==========================================================
+여기까지 됐으면 소켓 여러개 열어놓고 블록 생성한 뒤에 메세지가 뜨는지 확인 필요
+

@@ -1,4 +1,4 @@
-$ node httpServer.js &
+$ node httpServer.js & 로 백그라운드에서 포트 열어놓고
 그 다음에 localhost:3001/version 이나 localhost:3001/blocks 주소창에 검색해보면 나올 것
 $ curl -X GET http://localhost:3001/blocks 로도 확인 가능
 만약 파이썬이 설치되어 있는 사람은
@@ -27,7 +27,7 @@ function initConnection(ws){
   sockets.push(ws)
 }
 
-function getSockets)_{
+function getSockets(){
   return sockets;
 }
 
