@@ -11,7 +11,7 @@ vi chainedBlock에 nextBlock 함수 추가해주기
 
 ※※※※※※
 $ vi checkValidBlock.js
-// chainedBlock.js에서 module.exports{어쩌구 저쩌구}
+// chainedBlock.js에서 module.exports{필요한 것들} 
 // chainedBlock.js의 함수나 객체를 불러와서 쓰기
 const {Blocks, getLastBlock, createHash, nextBlock} = require("./chainedBlock.js")
 const merkle = require("merkle")
@@ -32,7 +32,7 @@ function isValidNewBlock(newBlock, previousBlock){
     console.log('Invalid Block Structre')
     return false;
   }
-  else if (newBlock.header.index !== preiviousBlock.header.index + 1){
+  else if (newBlock.header.index !== previousBlock.header.index + 1){
     console.log('Invalid Index')
     return false;
   }
@@ -59,7 +59,7 @@ function addBlock(newBlock){
 const block = nextBlock(['new Transaction'])
 addBlock(block)
 ==================================================================================================================
-env | grep HTTP_PORT
+$ env | grep HTTP_PORT
 
 우선 chainedBlock에 가서 addBlock 이랑 getVersion 을 module.exports에 추가해주기
 ※※※※※※
@@ -71,11 +71,11 @@ const {getBlocks, nextBlock, addBlock, getVersion} = require("./chainedBlock.js"
 const http_port = process.env.HTTP_PORT || 3001
 
 function initHttpServer(){
-  const app = exrpress()
+  const app = express()
   app.use(bodyParser.json())
 
   app.get("/blocks", (req, res)=>{
-    res.send(getBlock())
+    res.send(getBlocks())
   })
   app.post("/mineBlock", (req, res)=>{
     const data = req.body.data || []
