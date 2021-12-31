@@ -77,8 +77,8 @@ blockChain2에 http_port 의 포트를 3002번으로 바꿔주고
 blockChain2의 restartServer.js시에는 kill -9 하지 않게 바꿔주고!
 blockChain2 디렉토리에서 node httpServer.js & 로 백그라운드에서 돌리고
 $ ps -ef로 둘다 잘 돌아가는지 확인하고
-$ curl -H "Content-type:application/json" --data "{\"data\":[\"testblock1111\"]}" http://localhost:3001/mineBlock
-$ curl -H "Content-type:application/json" --data "{\"data\":[\"testblock2222\"]}" http://localhost:3002/mineBlock
+$ curl -H "Content-type:application/json" --data "{\"data\" : [\"testblock1111\"]}" http://localhost:3001/mineBlock
+$ curl -H "Content-type:application/json" --data "{\"data\" : [\"testblock2222\"]}" http://localhost:3002/mineBlock
 
 $ curl -X GET http://localhost:3001/blocks | python3 -m json.tool
 $ curl -X GET http://localhost:3002/blocks | python3 -m json.tool
@@ -118,7 +118,24 @@ function handleBlockChainResponse(message){
   }
 }
 
+그 다음에 queryLatestMsg 함수 아래에
+function initErrorHandler(ws){
+  ws.on("close", ()=>{closeConnection(ws)})
+  ws.on("eroor", ()=>{closeConnection(ws)})  // 에러가 발생해도 닫아줄 것
+}
+function closeConnection(ws){
+  console.log(`Connection close ${ws.url}`)
+  sockets.splice(sockets.indexOf(ws), 1) // 해당 웹소캣을 찾아서 1로 초기화
+}
+위의 두 함수를 만들고 나면  initConnection 함수 안에
+initMessageHandler(ws);
+initErrorHandler(ws);
+함수를 둘 다 넣어준다.
+그리고 closeConnection 함수를 정의해서 initErrorHandler 함수에 넣어준다.
 
 
+==================================================================================
+오늘 한거까지 이상없는지 확인하고 
 
+내일은 블록체인으로 작업증명해줄 예정
 
