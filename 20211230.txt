@@ -125,7 +125,7 @@ function initErrorHandler(ws){
 }
 function closeConnection(ws){
   console.log(`Connection close ${ws.url}`)
-  sockets.splice(sockets.indexOf(ws), 1) // 해당 웹소캣을 찾아서 1로 초기화
+  sockets.splice(sockets.indexOf(ws), 1) // 해당 웹소캣을 찾아서 초기화
 }
 위의 두 함수를 만들고 나면  initConnection 함수 안에
 initMessageHandler(ws);
@@ -136,6 +136,6 @@ initErrorHandler(ws);
 
 ==================================================================================
 오늘 한거까지 이상없는지 확인하고 
+확인했으면 노션 정리
 
-내일은 블록체인으로 작업증명해줄 예정
 
