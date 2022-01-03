@@ -23,7 +23,12 @@ chainedBlock.js에
 1) function hexToBinary(s)
 2) function hashMatchesDifficulty(hash, difficulty) 
 3) function findBlock(currentVersion, nextIndex, previousHash, nextTimestamp, merkleRoot, difficulty, nonce)
+4) function calculateHash(currentVersion, nextIndex, previousHash, nextTimestamp, merkleRoot, difficulty, nonce)
 함수 만들기
+
+chainedBlock.js에 
+nextBlock 함수에 difficulty, header 부분 수정
+function getDifficulty 함수 추가
 
 
 
