@@ -1,0 +1,4 @@
+코드 정리용 파일 만들기
+r_main.js, r_blockchain.js, r_utils.js, r_network.js, r_wallet.js
+
+경현이형, 성현이랑 팀프로젝트
